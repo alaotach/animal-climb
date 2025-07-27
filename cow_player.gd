@@ -1,6 +1,6 @@
 extends RigidBody2D
 
-@export var move_speed: float = 2000.0
+@export var move_speed: float = 20000.0
 @export var jump_force: float = -1500.0 
 @export var air_control: float = 0.3
 @export var max_jump_height: float = 100.0

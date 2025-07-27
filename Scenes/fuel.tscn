@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://dqn2avybokmu5"]
 
 [ext_resource type="Script" uid="uid://qi2sqntvxqxr" path="res://Scripts/fuel.gd" id="1_7kkyi"]
-[ext_resource type="Texture2D" uid="uid://bxee2v3eq713g" path="res://Images/Pickups/Fuel.png" id="2_7kkyi"]
+[ext_resource type="Texture2D" uid="uid://bj6dg3218v2t4" path="res://Images/Pickups/pngimg.com - grass_PNG4933.png" id="2_7kkyi"]
 [ext_resource type="AudioStream" uid="uid://bg2seexnr663k" path="res://Audio/Fuel.wav" id="3_7kkyi"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_le2qr"]
@@ -79,13 +79,16 @@ _data = {
 }
 
 [node name="Fuel" type="Area2D"]
+scale = Vector2(0.0599134, 0.0597459)
 script = ExtResource("1_7kkyi")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(2.03065, 1.96619)
 texture = ExtResource("2_7kkyi")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(2, -1)
+scale = Vector2(23.7223, 22.9693)
 shape = SubResource("RectangleShape2D_le2qr")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

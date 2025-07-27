@@ -9,7 +9,7 @@ extends Node2D
 
 var last_x := 0.0
 
-@onready var player := get_node("/root/YourMainScene/Player")  # Adjust path if needed
+@onready var player := get_node("Cow/RigidBody2D/Cow")  # Adjust path if needed
 
 func _process(_delta):
 	var target_x = player.global_position.x + ahead_distance
