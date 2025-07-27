@@ -17,7 +17,6 @@ extends Node2D
 @onready var fuel_bar    := get_node_or_null("UI/fuel/ProgressBar")
 @onready var fuel_anim   := get_node_or_null("UI/fuel/AnimationPlayer")
 @onready var coin_label  := get_node("UI/coin/Label")
-
 var last_x := 0.0
 var last_y := ground_level
 var current_wave_amp := 220.0
@@ -34,17 +33,22 @@ var noise_scale_small := 0.01
 
 var grass_height := 40.0
 var bottom_y_offset := 600.0
-var spline_samples := 3 
-var spawn_check_interval := 15 
+var spline_samples := 3
+var spawn_check_interval := 15   
 
 var temp_top_points := []
 var temp_bottom_points := []
 var temp_collision_points := PackedVector2Array()
 var temp_terrain_points := PackedVector2Array()
 var temp_grass_points := PackedVector2Array()
-
+ 
 var dirt_texture: Texture2D
 var grass_texture: Texture2D
+ 
+var terrain_segments := []
+var max_segments := 8   
+var delete_distance := 20000.0   
+var invisible_wall: StaticBody2D  
 
 func _ready():
 	noise = FastNoiseLite.new()
@@ -56,9 +60,11 @@ func _ready():
 	
 	dirt_texture = preload("res://Images/Terrain/DirtBG.png")
 	grass_texture = preload("res://Images/Terrain/Grass.png")
-	
+ 
 	temp_top_points.resize(segment_resolution + 1)
 	temp_bottom_points.resize(segment_resolution + 1)
+ 
+	_create_invisible_wall()
 
 func _process(_delta):
 	if not player:
@@ -66,6 +72,9 @@ func _process(_delta):
 	var target_x = player.global_position.x + ahead_distance
 	while last_x < target_x:
 		_generate_segment()
+ 
+	_update_invisible_wall()
+	_cleanup_old_terrain()
 
 func _generate_segment():
 	segments_since_change += 1
@@ -92,6 +101,12 @@ func _generate_segment():
 	var segment = _create_terrain_segment()
 	if not segment:
 		return
+	
+	terrain_segments.append({
+		"node": segment,
+		"start_x": last_x,
+		"end_x": last_x + segment_length
+	})
 		
 	add_child(segment)
 	
@@ -112,7 +127,7 @@ func _update_terrain_parameters():
 			terrain_slope = randf_range(-0.08, 0.08)
 
 func _generate_terrain_points(segment_width: float, spawn_positions: Array):
-	var smoothing_factor := 0.7 
+	var smoothing_factor := 0.7
 	
 	for i in range(segment_resolution + 1):
 		var x = last_x + i * segment_width
@@ -140,11 +155,12 @@ func _apply_light_smoothing():
 		var prev = temp_top_points[i - 1]
 		var curr = temp_top_points[i]
 		var next = temp_top_points[i + 1]
+		
 		temp_top_points[i].y = (prev.y + curr.y * 2.0 + next.y) * 0.25
 
 func _create_optimized_polygons():
 	var bottom_y = ground_level + bottom_y_offset
-
+	
 	var point_count = temp_top_points.size()
 	temp_collision_points.resize(point_count * 2)
 	temp_terrain_points.resize(point_count * 2)
@@ -223,3 +239,53 @@ func update_fuel_UI(value: float):
 			fuel_anim.play("alarm")
 		else:
 			fuel_anim.play("idle")
+
+func _create_invisible_wall():
+	invisible_wall = StaticBody2D.new()
+	var collision_shape = CollisionShape2D.new()
+	var rectangle_shape = RectangleShape2D.new()
+	rectangle_shape.size = Vector2(50, 2000)
+	collision_shape.shape = rectangle_shape
+	invisible_wall.add_child(collision_shape)
+	invisible_wall.position = Vector2(-1000, 0)
+	add_child(invisible_wall)
+
+func _update_invisible_wall():
+	if invisible_wall and player:
+		var wall_x = player.global_position.x - delete_distance + 500
+		invisible_wall.global_position.x = wall_x
+
+func _cleanup_old_terrain():
+	if not player:
+		return
+		
+	var player_x = player.global_position.x
+	var cleanup_threshold = player_x - delete_distance
+	
+	var segments_to_remove = []
+	for i in range(terrain_segments.size()):
+		var segment_data = terrain_segments[i]
+		if segment_data.end_x < cleanup_threshold:
+			segments_to_remove.append(i)
+	
+	for i in range(segments_to_remove.size() - 1, -1, -1):
+		var index = segments_to_remove[i]
+		var segment_data = terrain_segments[index]
+		
+		for child in segment_data.node.get_children():
+			child.queue_free()
+		segment_data.node.queue_free()
+		terrain_segments.remove_at(index)
+	
+	_cleanup_orphaned_collectibles(cleanup_threshold)
+
+func _cleanup_orphaned_collectibles(cleanup_x: float):
+	var children_to_remove = []
+	for child in get_children():
+		if child.has_method("get_global_position"):
+			if child.global_position.x < cleanup_x:
+				if child.scene_file_path == coin_scene.resource_path or child.scene_file_path == fuel_scene.resource_path:
+					children_to_remove.append(child)
+	
+	for child in children_to_remove:
+		child.queue_free()

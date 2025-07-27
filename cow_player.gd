@@ -8,6 +8,8 @@ extends RigidBody2D
 @export var terrain_smoothing: float = 0.8
 @export var stuck_threshold: float = 50.0
 
+@export var backward_limit_distance: float = 5000.0
+
 @onready var sprite: AnimatedSprite2D = $Cow
 @onready var ground_raycast: RayCast2D = $RayCast2D
 var fuel = 100
@@ -18,6 +20,9 @@ var last_position: Vector2
 var surface_normal: Vector2 = Vector2.UP
 
 var is_grounded: bool = false
+
+var furthest_x_position: float = 0.0
+var backward_limit_x: float = 0.0
 
 func _ready() -> void:
 	get_parent().update_fuel_UI(fuel)
@@ -61,8 +66,12 @@ func _ready() -> void:
 		ground_raycast.collision_mask = 0xFFFFFFFF
 		
 	last_position = global_position
+	furthest_x_position = global_position.x
+	backward_limit_x = global_position.x - backward_limit_distance
 
 func _physics_process(delta: float) -> void:
+	update_backward_limit()
+	enforce_backward_limit()
 	check_ground()
 	detect_stuck(delta)
 	handle_input(delta)
@@ -74,6 +83,20 @@ func _physics_process(delta: float) -> void:
 		use_fuel(delta)
 	else:
 		$EngineSound.pitch_scale = lerp($EngineSound.pitch_scale, 1.0, 2 * delta)
+
+func update_backward_limit():
+	if global_position.x > furthest_x_position:
+		furthest_x_position = global_position.x
+		backward_limit_x = furthest_x_position - backward_limit_distance
+
+func enforce_backward_limit():
+	if global_position.x < backward_limit_x:
+		if linear_velocity.x < 0:
+			linear_velocity.x = 0
+		
+		global_position.x = backward_limit_x + 5.0
+		
+		apply_central_force(Vector2(500, 0))
 
 func detect_stuck(delta: float) -> void:
 	var position_change = global_position.distance_to(last_position)
@@ -178,7 +201,7 @@ func get_surface_normal_at_contact(body: Node2D) -> Vector2:
 	if result and result.collider == body:
 		return result.normal
 	
-	return Vector2.UP  # Default fallback
+	return Vector2.UP
 
 func handle_input(delta: float) -> void:
 	move_input = 0.0
@@ -186,6 +209,8 @@ func handle_input(delta: float) -> void:
 		move_input = 1.0
 	elif Input.is_action_pressed("ui_left"):
 		move_input = -1.0
+		if global_position.x <= backward_limit_x + 10.0:
+			move_input = 0.0
 	
 	if Input.is_action_just_pressed("ui_accept") or Input.is_action_just_pressed("ui_up"):
 		var can_jump = false
@@ -225,28 +250,28 @@ func handle_input(delta: float) -> void:
 		var target_velocity_x = base_target
 		
 		if is_grounded and surface_normal != Vector2.UP:
-			var slope_factor = abs(surface_normal.dot(Vector2.UP))  # 1.0 = flat, 0.0 = vertical
-			slope_factor = clamp(slope_factor, 0.3, 1.0)  # Don't go too slow on slopes
+			var slope_factor = abs(surface_normal.dot(Vector2.UP))
+			slope_factor = clamp(slope_factor, 0.3, 1.0)
 			target_velocity_x *= slope_factor
 			
 			if (move_input > 0 and surface_normal.x < 0) or (move_input < 0 and surface_normal.x > 0):
 				var slope_boost = Vector2(0, -200 * (1.0 - slope_factor))
 				apply_central_force(slope_boost)
 		
-		var acceleration_factor = 15.0 if is_grounded else air_control * 10.0  # Increased responsiveness
+		var acceleration_factor = 15.0 if is_grounded else air_control * 10.0
 		linear_velocity.x = lerp(linear_velocity.x, target_velocity_x, acceleration_factor * delta)
 		
 		var current_speed = abs(linear_velocity.x)
 		var desired_speed = abs(target_velocity_x)
 		
-		if current_speed < desired_speed * 0.3 and stuck_timer < 0.4:  # Don't interfere with unstick system
-			var boost_force = Vector2(move_input * move_speed * 1.2, 0)  # Gentler boost
+		if current_speed < desired_speed * 0.3 and stuck_timer < 0.4:
+			var boost_force = Vector2(move_input * move_speed * 1.2, 0)
 			apply_central_force(boost_force)
 		
 		if is_grounded and current_speed < desired_speed * 0.2 and stuck_timer < 0.3:
 			var hop_check = check_for_tiny_obstacle()
 			if hop_check:
-				var micro_hop = Vector2(move_input * 200, -100)  # Gentler micro-hop
+				var micro_hop = Vector2(move_input * 200, -100)
 				apply_central_impulse(micro_hop)
 				print("MICRO-HOP over tiny obstacle")
 		
@@ -261,7 +286,7 @@ func check_for_tiny_obstacle() -> bool:
 	var space_state = get_world_2d().direct_space_state
 	var query = PhysicsRayQueryParameters2D.new()
 	query.from = global_position
-	query.to = global_position + Vector2(move_input * 20, 0)  # Short distance check
+	query.to = global_position + Vector2(move_input * 20, 0)
 	query.collision_mask = 0xFFFFFFFF
 	query.exclude = [self]
 	
@@ -276,7 +301,7 @@ func check_for_tiny_obstacle() -> bool:
 		var height_result = space_state.intersect_ray(height_query)
 		if height_result:
 			var obstacle_height = global_position.y - height_result.position.y
-			return obstacle_height > 0 and obstacle_height <= 15  # Very small obstacles only
+			return obstacle_height > 0 and obstacle_height <= 15
 	
 	return false
 
@@ -320,3 +345,17 @@ func use_fuel(delta):
 	fuel -= 10 * delta
 	fuel = clamp(fuel, 0, 100)
 	get_parent().update_fuel_UI(fuel)
+
+func _draw():
+	if Engine.is_editor_hint():
+		return
+	
+	var camera = get_viewport().get_camera_2d()
+	if camera:
+		var limit_screen_pos = to_local(Vector2(backward_limit_x, global_position.y))
+		draw_line(
+			limit_screen_pos + Vector2(0, -100),
+			limit_screen_pos + Vector2(0, 100),
+			Color.RED,
+			3.0
+		)
