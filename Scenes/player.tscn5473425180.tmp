@@ -1,0 +1,112 @@
+[gd_scene load_steps=11 format=3 uid="uid://rogkxd3xgusv"]
+
+[ext_resource type="Script" uid="uid://bh4bpaut04tx6" path="res://Scripts/player.gd" id="1_6t5aa"]
+[ext_resource type="PackedScene" uid="uid://df028fcfc2fo4" path="res://Scenes/wheel.tscn" id="1_cvnsp"]
+[ext_resource type="Texture2D" uid="uid://dbifkpd43x5sl" path="res://Images/Car/Car.png" id="2_6t5aa"]
+[ext_resource type="Texture2D" uid="uid://cdkl40gayrixa" path="res://Images/Characters/Body.png" id="3_fkybt"]
+[ext_resource type="Texture2D" uid="uid://di1iklb535nsl" path="res://Images/Characters/Head.png" id="5_x3wgy"]
+[ext_resource type="Texture2D" uid="uid://bde4syni6jmbm" path="res://Images/Cow/ChatGPT Image Jul 27, 2025, 04_23_33 PM.png" id="6_8erm5"]
+[ext_resource type="AudioStream" uid="uid://bfp0wt8w6xbpk" path="res://Audio/EngineSound.ogg" id="6_x3wgy"]
+[ext_resource type="Texture2D" uid="uid://c2nejvc0bnbtl" path="res://Images/Cow/Adobe Express - file.png" id="7_f1ek2"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3smsa"]
+radius = 43.2897
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tx1dd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_8erm5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_f1ek2")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 6.0
+}]
+
+[node name="Player" type="RigidBody2D" groups=["player"]]
+collision_layer = 2
+gravity_scale = 30.0
+script = ExtResource("1_6t5aa")
+
+[node name="WheelHolder" type="PinJoint2D" parent="."]
+visible = false
+position = Vector2(-160, 107)
+scale = Vector2(0.862043, 0.862043)
+node_a = NodePath("..")
+node_b = NodePath("Wheel")
+softness = 0.25
+
+[node name="Wheel" parent="WheelHolder" instance=ExtResource("1_cvnsp")]
+
+[node name="WheelHolder2" type="PinJoint2D" parent="."]
+visible = false
+position = Vector2(146, 106)
+scale = Vector2(0.862043, 0.862043)
+node_a = NodePath("..")
+node_b = NodePath("Wheel2")
+softness = 0.25
+
+[node name="Wheel2" parent="WheelHolder2" instance=ExtResource("1_cvnsp")]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-33, -61)
+rotation = -3.14159
+scale = Vector2(0.951275, -0.671521)
+texture = ExtResource("3_fkybt")
+
+[node name="Head" type="RigidBody2D" parent="." groups=["player"]]
+position = Vector2(1, 0)
+scale = Vector2(1.1618, 1.1618)
+collision_layer = 4
+mass = 0.141
+
+[node name="Sprite2D" type="Sprite2D" parent="Head"]
+position = Vector2(-36, -99)
+scale = Vector2(0.605996, 0.605996)
+texture = ExtResource("5_x3wgy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Head"]
+position = Vector2(-36, -105)
+shape = SubResource("CircleShape2D_3smsa")
+
+[node name="HeadSpring" type="PinJoint2D" parent="Head"]
+position = Vector2(-36, -105)
+node_a = NodePath("..")
+node_b = NodePath("../..")
+softness = 8.21
+
+[node name="NeckJoint" type="PinJoint2D" parent="Head"]
+position = Vector2(-36, -61)
+node_a = NodePath("..")
+node_b = NodePath("../..")
+
+[node name="Car" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(18.8, -23.6)
+scale = Vector2(0.956397, 0.956397)
+texture = ExtResource("2_6t5aa")
+
+[node name="Cow" type="AnimatedSprite2D" parent="." groups=["player"]]
+position = Vector2(18.8, -23.6)
+scale = Vector2(0.292314, 0.292314)
+sprite_frames = SubResource("SpriteFrames_tx1dd")
+animation = &"walk"
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+visible = false
+scale = Vector2(0.956397, 0.956397)
+polygon = PackedVector2Array(-203, -72, -200, 47, -214, 54, -212, 70, -172, 70, -163, 31, -140, 18, -101, 35, -94, 65, -46, 73, 42, 73, 86, 73, 95, 35, 127, 20, 157, 35, 166, 68, 239, 69, 235, 55, 234, -31, 163, -60, 97, -78, 28, -85, 1, -54, 2, -53, -73, -51, -112, -86, -183, -84)
+
+[node name="GameOverTimer" type="Timer" parent="."]
+wait_time = 5.0
+
+[node name="EngineSound" type="AudioStreamPlayer2D" parent="."]
+scale = Vector2(10.7173, -7.09121)
+stream = ExtResource("6_x3wgy")
+autoplay = true
+parameters/looping = true
+
+[connection signal="timeout" from="GameOverTimer" to="." method="_on_game_over_timer_timeout"]

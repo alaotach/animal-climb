@@ -1,0 +1,51 @@
+[gd_scene load_steps=6 format=3 uid="uid://c7kbufg0qakcb"]
+
+[ext_resource type="Texture2D" uid="uid://bde4syni6jmbm" path="res://Images/Cow/ChatGPT Image Jul 27, 2025, 04_23_33 PM.png" id="1_5irgl"]
+[ext_resource type="Texture2D" uid="uid://c2nejvc0bnbtl" path="res://Images/Cow/Adobe Express - file.png" id="2_uc4cw"]
+[ext_resource type="Script" uid="uid://bwrhb8k05fo5e" path="res://cow_player.gd" id="3_bfwbv"]
+[ext_resource type="AudioStream" uid="uid://bfp0wt8w6xbpk" path="res://Audio/EngineSound.ogg" id="3_uc4cw"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bfwbv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_5irgl")
+}],
+"loop": true,
+"name": &"dead",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_5irgl")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_5irgl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_uc4cw")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 6.0
+}]
+
+[node name="CharacterBody2D" type="CharacterBody2D"]
+script = ExtResource("3_bfwbv")
+
+[node name="Cow" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.409569, 0.409569)
+sprite_frames = SubResource("SpriteFrames_bfwbv")
+animation = &"dead"
+
+[node name="EngineSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_uc4cw")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+scale = Vector2(2.80895, 2.80895)
+polygon = PackedVector2Array(4, 50, 15, 50, 12, 19, 17, 18, 20, 49, 30, 49, 27, 43, 25, 31, 30, 9, 35, -5, 38, -15, 43, -14, 46, -12, 51, -11, 55, -11, 58, -13, 62, -15, 63, -20, 62, -23, 60, -26, 57, -26, 50, -34, 56, -35, 60, -41, 54, -44, 47, -42, 49, -48, 47, -53, 42, -46, 30, -45, 24, -53, 22, -52, 22, -49, 22, -45, 26, -41, 25, -39, 20, -42, 16, -43, 8, -42, 11, -36, 17, -33, 22, -33, 17, -31, -40, -31, -47, -27, -54, -18, -56, -10, -57, 0, -57, 10, -61, 14, -62, 17, -63, 21, -61, 26, -57, 22, -54, 17, -53, 14, -55, 11, -54, -4, -49, -21, -50, -5, -49, 11, -52, 21, -50, 43, -49, 49, -39, 50, -39, 48, -41, 50, -21, 49, -32, 26, -32, 8, -31, 50, -19, 26, -7, 19, 1, 19, 2, 27, 3, 32)

@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://d1nhvfpnax2e1"]
+
+[ext_resource type="Script" uid="uid://bmj06hyucm0dh" path="res://Scenes/terrain_segment.gd" id="1_csc17"]
+[ext_resource type="Texture2D" uid="uid://d4etl5mf5yi7x" path="res://Images/Terrain/DirtBG.png" id="1_nac1n"]
+
+[node name="StaticBody2D" type="StaticBody2D" groups=["ground"]]
+script = ExtResource("1_csc17")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_nac1n")
