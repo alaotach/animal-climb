@@ -1,0 +1,22 @@
+[gd_scene load_steps=6 format=3 uid="uid://crti6kjd2m4yd"]
+
+[ext_resource type="Shader" uid="uid://bt58qr67m6yy1" path="res://Scenes/pride.gdshader" id="1_pxqb4"]
+[ext_resource type="Texture2D" uid="uid://j2nhjtew0f8b" path="res://Scripts/pride_LGBT_Rainbow_Flag.png" id="2_a5oyp"]
+[ext_resource type="Script" uid="uid://bjm3el46kqvsw" path="res://Scenes/wavesub.gd" id="2_skg38"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_88u66"]
+shader = ExtResource("1_pxqb4")
+shader_parameter/amplitude = 0.25
+shader_parameter/frequency = 750.0
+shader_parameter/speed = 5.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_a5oyp"]
+subdivide_width = 500
+subdivide_depth = 256
+
+[node name="MeshInstance2D" type="MeshInstance2D"]
+material = SubResource("ShaderMaterial_88u66")
+scale = Vector2(80.7611, -35.3915)
+mesh = SubResource("QuadMesh_a5oyp")
+texture = ExtResource("2_a5oyp")
+script = ExtResource("2_skg38")

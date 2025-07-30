@@ -1,9 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://dofp06y6iobr3"]
+[gd_scene load_steps=13 format=3 uid="uid://dofp06y6iobr3"]
 
 [ext_resource type="Texture2D" uid="uid://bvhaaiq166gv7" path="res://Images/Pickups/Coin5.png" id="1_qdvrb"]
 [ext_resource type="FontFile" uid="uid://3tyorkerrijm" path="res://Fredoka-VariableFont_wdth,wght.ttf" id="2_nf4gj"]
 [ext_resource type="Texture2D" uid="uid://bj6dg3218v2t4" path="res://Images/Pickups/pngimg.com - grass_PNG4933.png" id="3_2246s"]
 [ext_resource type="Texture2D" uid="uid://dkquoal7w0r10" path="res://Images/Other/Alarm.png" id="4_2246s"]
+[ext_resource type="Texture2D" uid="uid://b07e4e4t3uiug" path="res://Images/Pickups/2554922.png" id="5_q7pk6"]
+[ext_resource type="Texture2D" uid="uid://dctaww0h3lh8j" path="res://Images/Other/416e80b4fe03f01a1ae1f5b6e51c91a4-heart-symbol.png" id="6_smcll"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2246s"]
 bg_color = Color(0.233925, 0.233925, 0.233925, 1)
@@ -129,3 +131,58 @@ texture = ExtResource("4_2246s")
 libraries = {
 &"": SubResource("AnimationLibrary_ryf15")
 }
+
+[node name="Distance" type="TextureRect" parent="."]
+offset_left = 37.0
+offset_top = 168.0
+offset_right = 549.0
+offset_bottom = 680.0
+scale = Vector2(0.0547483, 0.105549)
+texture = ExtResource("5_q7pk6")
+
+[node name="Label" type="Label" parent="Distance"]
+layout_mode = 0
+offset_left = 1004.6
+offset_top = -180.011
+offset_right = 1044.6
+offset_bottom = -135.011
+scale = Vector2(31.9829, 18)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("2_nf4gj")
+theme_override_font_sizes/font_size = 32
+text = "0"
+
+[node name="Heart" type="Node2D" parent="."]
+
+[node name="Heart" type="TextureRect" parent="Heart"]
+offset_left = 359.0
+offset_top = 26.0
+offset_right = 615.0
+offset_bottom = 282.0
+scale = Vector2(0.218962, 0.218962)
+texture = ExtResource("6_smcll")
+
+[node name="Heart2" type="TextureRect" parent="Heart"]
+offset_left = 416.0
+offset_top = 26.0
+offset_right = 672.0
+offset_bottom = 282.0
+scale = Vector2(0.218962, 0.218962)
+texture = ExtResource("6_smcll")
+
+[node name="Heart3" type="TextureRect" parent="Heart"]
+offset_left = 477.0
+offset_top = 26.0
+offset_right = 733.0
+offset_bottom = 282.0
+scale = Vector2(0.218962, 0.218962)
+texture = ExtResource("6_smcll")
+
+[node name="Heart4" type="TextureRect" parent="Heart"]
+offset_left = 538.0
+offset_top = 26.0
+offset_right = 794.0
+offset_bottom = 282.0
+scale = Vector2(0.218962, 0.218962)
+texture = ExtResource("6_smcll")

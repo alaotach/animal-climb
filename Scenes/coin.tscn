@@ -79,6 +79,7 @@ _data = {
 }
 
 [node name="Coin" type="Area2D"]
+audio_bus_name = &"SFX"
 script = ExtResource("1_jgi06")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

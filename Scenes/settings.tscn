@@ -1,0 +1,200 @@
+[gd_scene load_steps=4 format=3 uid="uid://ctcviy5ho7ccg"]
+
+[ext_resource type="Script" uid="uid://ck20cc5lckpa8" path="res://settings.gd" id="1_i44u3"]
+[ext_resource type="Texture2D" uid="uid://ct0hmcvvmwkky" path="res://Images/Menu/premium_photo-1661962510497-9505129083fa.png" id="2_lhmql"]
+[ext_resource type="AudioStream" uid="uid://bh1m6arb2nms8" path="res://Images/Menu/cowboy-vs-indians-143570.mp3" id="3_lhmql"]
+
+[node name="Settings" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_i44u3")
+
+[node name="BackGround" type="TextureRect" parent="."]
+modulate = Color(0.505344, 0.505344, 0.505344, 1)
+layout_mode = 0
+offset_left = -28.0
+offset_top = -85.0
+offset_right = 1442.0
+offset_bottom = 895.0
+scale = Vector2(0.815901, 0.815901)
+texture = ExtResource("2_lhmql")
+
+[node name="SFXCheck" type="CheckBox" parent="."]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 145.0
+offset_right = 120.0
+offset_bottom = 176.0
+scale = Vector2(3.10813, 3.10813)
+button_pressed = true
+text = "SFX"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 418.0
+offset_top = 38.0
+offset_right = 484.0
+offset_bottom = 61.0
+scale = Vector2(4.14029, 4.14029)
+theme_override_colors/font_color = Color(0.391574, 0.417547, 0.992423, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+text = "Settings"
+
+[node name="InfiniteJumpsCheck" type="CheckBox" parent="."]
+layout_mode = 0
+offset_left = 787.0
+offset_top = 254.0
+offset_right = 925.0
+offset_bottom = 285.0
+scale = Vector2(2.64471, 2.64471)
+text = "Infinite Jump"
+
+[node name="AccelerationSlider" type="HSlider" parent="."]
+layout_mode = 0
+offset_left = 710.0
+offset_top = 400.0
+offset_right = 810.0
+offset_bottom = 416.0
+scale = Vector2(1.95551, 1.95551)
+min_value = 1.0
+value = 1.0
+
+[node name="AccelerationLabel" type="Label" parent="AccelerationSlider"]
+layout_mode = 0
+offset_left = -102.786
+offset_top = -6.1365
+offset_right = 2.21358
+offset_bottom = 16.8635
+text = "Acceleration: "
+
+[node name="SpeedSlider" type="HSlider" parent="."]
+layout_mode = 0
+offset_left = 705.0
+offset_top = 346.0
+offset_right = 805.0
+offset_bottom = 362.0
+scale = Vector2(2.01104, 2.01104)
+min_value = 1.0
+value = 1.0
+
+[node name="SpeedLabel" type="Label" parent="SpeedSlider"]
+layout_mode = 0
+offset_left = -62.4201
+offset_top = -5.35029
+offset_right = 2.57992
+offset_bottom = 17.6497
+text = "Speed:"
+
+[node name="AirSpeedSlider" type="HSlider" parent="."]
+layout_mode = 0
+offset_left = 248.0
+offset_top = 520.0
+offset_right = 348.0
+offset_bottom = 536.0
+scale = Vector2(2.03555, 2.03555)
+min_value = 1.0
+value = 1.0
+
+[node name="AirSpeedLabel" type="Label" parent="AirSpeedSlider"]
+layout_mode = 0
+offset_left = -93.3407
+offset_top = -4.91267
+offset_right = -11.3407
+offset_bottom = 18.0873
+text = "Air Speed: "
+
+[node name="FlipSensitivitySlider" type="HSlider" parent="."]
+layout_mode = 0
+offset_left = 245.0
+offset_top = 465.0
+offset_right = 345.0
+offset_bottom = 481.0
+scale = Vector2(2.45762, 2.45762)
+min_value = 1.0
+value = 1.0
+
+[node name="FlipSensitivityLabel" type="Label" parent="FlipSensitivitySlider"]
+layout_mode = 0
+offset_left = -88.7036
+offset_top = -1.22069
+offset_right = 31.2964
+offset_bottom = 21.7793
+scale = Vector2(0.723291, 0.723291)
+text = "Flip Sensitivity: "
+
+[node name="InfiniteFuelCheck" type="CheckBox" parent="."]
+layout_mode = 0
+offset_left = 70.0
+offset_top = 251.0
+offset_right = 190.0
+offset_bottom = 282.0
+scale = Vector2(2.68194, 2.68194)
+text = "Infinite Fuel"
+
+[node name="JumpHeightSlider" type="HSlider" parent="."]
+layout_mode = 0
+offset_left = 230.0
+offset_top = 394.0
+offset_right = 330.0
+offset_bottom = 410.0
+scale = Vector2(2.49342, 2.49342)
+min_value = 1.0
+value = 2.0
+
+[node name="JumpHeightLabel" type="Label" parent="JumpHeightSlider"]
+layout_mode = 0
+offset_left = -57.5989
+offset_right = 42.4011
+offset_bottom = 23.0
+scale = Vector2(0.581948, 0.581948)
+text = "Jump Height:"
+
+[node name="MusicCheck" type="CheckBox" parent="."]
+layout_mode = 0
+offset_left = 875.0
+offset_top = 144.0
+offset_right = 949.0
+offset_bottom = 175.0
+scale = Vector2(3.1351, 3.1351)
+button_pressed = true
+text = "Music"
+
+[node name="MasterVolumeSlider" type="HSlider" parent="."]
+layout_mode = 0
+offset_left = 205.0
+offset_top = 342.0
+offset_right = 305.0
+offset_bottom = 358.0
+scale = Vector2(2.59394, 2.59394)
+min_value = 1.0
+value = 1.0
+
+[node name="MasterVolumeLabel" type="Label" parent="MasterVolumeSlider"]
+layout_mode = 0
+offset_left = -46.6471
+offset_top = -1.92758
+offset_right = 21.3529
+offset_bottom = 21.0724
+scale = Vector2(0.6937, 0.696549)
+text = "Volume: "
+
+[node name="Song" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_lhmql")
+volume_db = -17.654
+autoplay = true
+bus = &"Music"
+parameters/looping = true
+
+[node name="Back" type="Button" parent="."]
+layout_mode = 0
+offset_left = 816.0
+offset_top = 482.0
+offset_right = 861.0
+offset_bottom = 513.0
+scale = Vector2(4.47926, 4.47926)
+text = "Back"

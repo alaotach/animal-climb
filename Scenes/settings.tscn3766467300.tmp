@@ -1,0 +1,141 @@
+[gd_scene load_steps=3 format=3 uid="uid://ctcviy5ho7ccg"]
+
+[ext_resource type="Script" uid="uid://ck20cc5lckpa8" path="res://settings.gd" id="1_i44u3"]
+[ext_resource type="Texture2D" uid="uid://ct0hmcvvmwkky" path="res://Images/Menu/premium_photo-1661962510497-9505129083fa.png" id="2_lhmql"]
+
+[node name="Settings" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_i44u3")
+
+[node name="BackGround" type="TextureRect" parent="."]
+modulate = Color(0.505344, 0.505344, 0.505344, 1)
+offset_left = -28.0
+offset_top = -85.0
+offset_right = 1442.0
+offset_bottom = 895.0
+scale = Vector2(0.815901, 0.815901)
+texture = ExtResource("2_lhmql")
+
+[node name="SFXCheck" type="CheckBox" parent="."]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 145.0
+offset_right = 120.0
+offset_bottom = 176.0
+scale = Vector2(3.10813, 3.10813)
+button_pressed = true
+text = "SFX"
+
+[node name="Label" type="Label" parent="."]
+offset_left = 418.0
+offset_top = 38.0
+offset_right = 484.0
+offset_bottom = 61.0
+scale = Vector2(4.14029, 4.14029)
+theme_override_colors/font_color = Color(0.391574, 0.417547, 0.992423, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+text = "Settings"
+
+[node name="InfiniteJumpsCheck" type="CheckBox" parent="."]
+layout_mode = 0
+offset_left = 787.0
+offset_top = 254.0
+offset_right = 925.0
+offset_bottom = 285.0
+scale = Vector2(2.64471, 2.64471)
+text = "Infinite Jump"
+
+[node name="AccelerationSlider" type="HSlider" parent="."]
+offset_right = 8.0
+offset_bottom = 16.0
+scale = Vector2(17.2369, 17.2369)
+
+[node name="AccelerationLabel" type="Label" parent="AccelerationSlider"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Acceleration: "
+
+[node name="SpeedSlider" type="HSlider" parent="."]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 16.0
+scale = Vector2(9.88493, 9.88493)
+
+[node name="SpeedLabel" type="Label" parent="SpeedSlider"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Speed: 0"
+
+[node name="AirSpeedSlider" type="HSlider" parent="."]
+offset_right = 8.0
+offset_bottom = 16.0
+scale = Vector2(17.9425, 17.9425)
+
+[node name="AirSpeedLabel" type="Label" parent="AirSpeedSlider"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Air Speed: "
+
+[node name="FlipSensitivitySlider" type="HSlider" parent="."]
+offset_right = 8.0
+offset_bottom = 16.0
+scale = Vector2(21.6628, 21.6628)
+
+[node name="FlipSensitivityLabel" type="Label" parent="FlipSensitivitySlider"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Flip Sensitivity: "
+
+[node name="InfiniteFuelCheck" type="CheckBox" parent="."]
+layout_mode = 0
+offset_left = 70.0
+offset_top = 251.0
+offset_right = 190.0
+offset_bottom = 282.0
+scale = Vector2(2.68194, 2.68194)
+text = "Infinite Fuel"
+
+[node name="JumpHeightSlider" type="HSlider" parent="."]
+offset_left = 94.0
+offset_top = 366.0
+offset_right = 102.0
+offset_bottom = 382.0
+scale = Vector2(0.687842, 0.687842)
+value = 2.0
+
+[node name="JumpHeightLabel" type="Label" parent="JumpHeightSlider"]
+layout_mode = 0
+offset_right = 96.0
+offset_bottom = 23.0
+text = "Jump Height:"
+
+[node name="MusicCheck" type="CheckBox" parent="."]
+layout_mode = 0
+offset_left = 875.0
+offset_top = 144.0
+offset_right = 949.0
+offset_bottom = 175.0
+scale = Vector2(3.1351, 3.1351)
+button_pressed = true
+text = "Music"
+
+[node name="MasterVolumeSlider" type="HSlider" parent="."]
+offset_right = 8.0
+offset_bottom = 16.0
+scale = Vector2(22.8644, 22.8644)
+
+[node name="MasterVolumeLabel" type="Label" parent="MasterVolumeSlider"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Volume: "

@@ -1,0 +1,60 @@
+[gd_scene load_steps=7 format=3 uid="uid://dkc06l0tg3xaf"]
+
+[ext_resource type="Script" uid="uid://ce0ybgtmpe5jn" path="res://Scripts/terrain_segment.gd" id="1_c7pbv"]
+[ext_resource type="PackedScene" uid="uid://bm604naxkqxvs" path="res://Scenes/boost.tscn" id="4_rfktq"]
+[ext_resource type="PackedScene" uid="uid://dofp06y6iobr3" path="res://Scenes/ui.tscn" id="14_2hkqn"]
+[ext_resource type="Texture2D" uid="uid://sj2hx50s1e4" path="res://Images/Other/SceneBG.png" id="16_c7pbv"]
+[ext_resource type="Texture2D" uid="uid://br6x7g3j2dbxw" path="res://Images/Other/Clouds.png" id="17_77l7m"]
+[ext_resource type="PackedScene" uid="uid://c7kbufg0qakcb" path="res://Scenes/Cow.tscn" id="17_c7pbv"]
+
+[node name="Level1" type="Node2D"]
+script = ExtResource("1_c7pbv")
+coin_spawn_chance = 0.5
+fuel_spawn_chance = 0.02
+metadata/_edit_vertical_guides_ = [-890.0]
+
+[node name="Cow" parent="." node_paths=PackedStringArray("cow") groups=["player"] instance=ExtResource("17_c7pbv")]
+position = Vector2(1616, -169)
+scale = Vector2(1.04325, 1.00204)
+cow = NodePath(".")
+
+[node name="Camera2D" type="Camera2D" parent="Cow"]
+position = Vector2(-344, 0)
+zoom = Vector2(0.3, 0.3)
+
+[node name="RayCast2D" type="RayCast2D" parent="Cow"]
+position = Vector2(3, -81)
+target_position = Vector2(14, 266)
+
+[node name="FrontWheelRay" type="RayCast2D" parent="Cow"]
+position = Vector2(85, -129)
+target_position = Vector2(-20, 320)
+
+[node name="BackWheelRay" type="RayCast2D" parent="Cow"]
+position = Vector2(-116, -86)
+target_position = Vector2(-12, 287)
+
+[node name="UI" parent="." instance=ExtResource("14_2hkqn")]
+
+[node name="Boost" parent="." instance=ExtResource("4_rfktq")]
+position = Vector2(2669, -36)
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.1, 0.1)
+motion_mirroring = Vector2(3000, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+position = Vector2(-270, -190)
+texture = ExtResource("16_c7pbv")
+centered = false
+
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.3, 0.3)
+motion_mirroring = Vector2(3000, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer2"]
+position = Vector2(-255, -612)
+texture = ExtResource("17_77l7m")
+centered = false

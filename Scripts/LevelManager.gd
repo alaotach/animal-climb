@@ -14,3 +14,6 @@ func update_fuel_UI(value):
 		$UI/fuel/AnimationPlayer.play("alarm")
 	else:
 		$UI/fuel/AnimationPlayer.play("idle")
+
+func update_distance_UI(value):
+	$UI/Distance/Label.text = str(value)

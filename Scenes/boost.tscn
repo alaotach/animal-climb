@@ -1,0 +1,103 @@
+[gd_scene load_steps=8 format=3 uid="uid://bm604naxkqxvs"]
+
+[ext_resource type="Script" uid="uid://csqwupq84sdhc" path="res://Boost.gd" id="1_cc0wh"]
+[ext_resource type="Texture2D" uid="uid://dqxildwawbbma" path="res://Images/Pickups/2736161.png" id="2_j4802"]
+[ext_resource type="AudioStream" uid="uid://bg2seexnr663k" path="res://Audio/Fuel.wav" id="3_lqh7a"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_le2qr"]
+size = Vector2(150, 160)
+
+[sub_resource type="Animation" id="Animation_g537i"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:modulate:a")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_jgi06"]
+resource_name = "pickup"
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.0333333, -76.5, -60, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.566667)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:modulate:a")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.566667)
+}
+tracks/2/type = "audio"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Pickup")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("3_lqh7a")
+}],
+"times": PackedFloat32Array(0.0333333)
+}
+tracks/2/use_blend = true
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_h2p6v"]
+_data = {
+&"RESET": SubResource("Animation_g537i"),
+&"pickup": SubResource("Animation_jgi06")
+}
+
+[node name="Boost" type="Area2D"]
+scale = Vector2(0.0599134, 0.0597459)
+audio_bus_name = &"SFX"
+script = ExtResource("1_cc0wh")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(6.86284, 6.64499)
+texture = ExtResource("2_j4802")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(2, -1)
+scale = Vector2(23.7223, 22.9693)
+shape = SubResource("RectangleShape2D_le2qr")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_h2p6v")
+}
+
+[node name="Pickup" type="AudioStreamPlayer2D" parent="."]
+
+[connection signal="body_entered" from="." to="." method="_on_Fuel_body_entered"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

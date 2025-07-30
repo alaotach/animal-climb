@@ -1,11 +1,5 @@
-[gd_scene load_steps=2 format=3 uid="uid://d1nhvfpnax2e1"]
-
-[ext_resource type="Texture2D" uid="uid://d4etl5mf5yi7x" path="res://Images/Terrain/DirtBG.png" id="1_nac1n"]
+[gd_scene format=3 uid="uid://d1nhvfpnax2e1"]
 
 [node name="StaticBody2D" type="StaticBody2D" groups=["ground"]]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-
-[node name="GroundSprite" type="Sprite2D" parent="."]
-texture_repeat = 2
-texture = ExtResource("1_nac1n")

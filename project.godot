@@ -11,9 +11,14 @@ config_version=5
 [application]
 
 config/name="hill climb racing"
-run/main_scene="uid://dkc06l0tg3xaf"
+run/main_scene="uid://gvxcvg7wp0rh"
 config/features=PackedStringArray("4.4", "Mobile")
 config/icon="res://icon.svg"
+
+[audio]
+
+buses/Music=false
+buses/SFX=false
 
 [display]
 
@@ -29,6 +34,10 @@ enabled=PackedStringArray("res://addons/godot_super-wakatime/plugin.cfg", "res:/
 player=""
 wheels=""
 ground=""
+
+[gui]
+
+theme/default_font_multichannel_signed_distance_field=true
 
 [rendering]
 

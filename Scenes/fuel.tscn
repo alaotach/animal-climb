@@ -97,6 +97,7 @@ libraries = {
 }
 
 [node name="Pickup" type="AudioStreamPlayer2D" parent="."]
+bus = &"SFX"
 
 [connection signal="body_entered" from="." to="." method="_on_Fuel_body_entered"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

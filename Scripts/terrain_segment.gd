@@ -7,16 +7,20 @@ extends Node2D
 @export var terrain_scene: PackedScene = preload("res://Scenes/TerrainSegment.tscn")
 @export var coin_scene: PackedScene    = preload("res://Scenes/coin.tscn")
 @export var fuel_scene: PackedScene    = preload("res://Scenes/fuel.tscn")
+@export var boost_scene: PackedScene   = preload("res://Scenes/boost.tscn")  # Add boost scene
 
 @export var wave_amplitude_range := Vector2(160, 300)
 @export var ground_level := 450
 @export_range(0.0, 1.0) var coin_spawn_chance := 0.01
-@export_range(0.0, 1.0) var fuel_spawn_chance := 0.002
+@export_range(0.0, 1.0) var fuel_spawn_chance := 0.007
+@export_range(0.0, 1.0) var boost_spawn_chance := 0.005
+@export_range(0.0, 1.0) var heart_spawn_chance := 0.005  # Add boost spawn chance
 
 @onready var player      := get_tree().get_current_scene().get_node("Cow")
 @onready var fuel_bar    := get_node_or_null("UI/fuel/ProgressBar")
 @onready var fuel_anim   := get_node_or_null("UI/fuel/AnimationPlayer")
 @onready var coin_label  := get_node("UI/coin/Label")
+@onready var distance_label  := get_node("UI/Distance/Label")
 var last_x := 0.0
 var last_y := ground_level
 var current_wave_amp := 220.0
@@ -221,10 +225,20 @@ func _spawn_collectibles(spawn_positions: Array):
 			var fuel = fuel_scene.instantiate()
 			fuel.global_position = grass_pos
 			add_child(fuel)
-		elif r < fuel_spawn_chance + coin_spawn_chance:
+		elif r < fuel_spawn_chance + boost_spawn_chance:
+			var boost = boost_scene.instantiate()
+			boost.global_position = grass_pos
+			add_child(boost)
+		elif r < fuel_spawn_chance + boost_spawn_chance + coin_spawn_chance:
 			var coin = coin_scene.instantiate()
 			coin.global_position = grass_pos
 			add_child(coin)
+		elif r < fuel_spawn_chance + heart_spawn_chance + 0.01:
+			var heart = preload("res://HeartPickup.tscn").instantiate()
+			heart.position = grass_pos 
+			add_child(heart)
+			heart.connect("picked_up", Callable($Cow, "revive"))
+
 
 func add_coins(amount: int):
 	coins_collected += amount
@@ -239,6 +253,9 @@ func update_fuel_UI(value: float):
 			fuel_anim.play("alarm")
 		else:
 			fuel_anim.play("idle")
+func update_distance_UI(value: float):
+	if distance_label:
+		distance_label.text = str(value/1000)
 
 func _create_invisible_wall():
 	invisible_wall = StaticBody2D.new()
@@ -284,7 +301,7 @@ func _cleanup_orphaned_collectibles(cleanup_x: float):
 	for child in get_children():
 		if child.has_method("get_global_position"):
 			if child.global_position.x < cleanup_x:
-				if child.scene_file_path == coin_scene.resource_path or child.scene_file_path == fuel_scene.resource_path:
+				if child.scene_file_path == coin_scene.resource_path or child.scene_file_path == fuel_scene.resource_path or child.scene_file_path == boost_scene.resource_path:  # Include boost cleanup
 					children_to_remove.append(child)
 	
 	for child in children_to_remove:

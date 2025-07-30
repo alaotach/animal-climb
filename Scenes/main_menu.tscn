@@ -1,0 +1,73 @@
+[gd_scene load_steps=5 format=3 uid="uid://gvxcvg7wp0rh"]
+
+[ext_resource type="Script" uid="uid://x0ufr6jpdtve" path="res://main_menu.gd" id="1_48xlc"]
+[ext_resource type="Texture2D" uid="uid://ct0hmcvvmwkky" path="res://Images/Menu/premium_photo-1661962510497-9505129083fa.png" id="2_1ehe0"]
+[ext_resource type="AudioStream" uid="uid://bh1m6arb2nms8" path="res://Images/Menu/cowboy-vs-indians-143570.mp3" id="3_1ehe0"]
+[ext_resource type="FontFile" uid="uid://b2qqqlivormwo" path="res://Images/Menu/Coiny-Regular.ttf" id="3_ce3w2"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_48xlc")
+
+[node name="BackGround" type="TextureRect" parent="."]
+modulate = Color(0.505344, 0.505344, 0.505344, 1)
+layout_mode = 0
+offset_left = -28.0
+offset_top = -85.0
+offset_right = 1442.0
+offset_bottom = 895.0
+scale = Vector2(0.815901, 0.815901)
+texture = ExtResource("2_1ehe0")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 98.0
+offset_top = 38.0
+offset_right = 333.0
+offset_bottom = 61.0
+scale = Vector2(4.14029, 4.14029)
+theme_override_colors/font_color = Color(0, 0.823529, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_ce3w2")
+theme_override_font_sizes/font_size = 16
+text = "Animal Climb ( Not Racing ig )"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 384.0
+offset_top = 171.0
+offset_right = 466.0
+offset_bottom = 272.0
+scale = Vector2(4.11967, 4.11967)
+
+[node name="PlayButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_disabled_color = Color(0.828934, 0.711218, 0.338879, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.710849, 0.685648, 0.836748, 1)
+theme_override_colors/font_hover_color = Color(1, 0, 0, 1)
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_font_sizes/font_size = 16
+text = "PLAY"
+
+[node name="SettingsButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 1, 1)
+text = "SETTINGS"
+
+[node name="QuitButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+text = "EXIT"
+
+[node name="Song" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_1ehe0")
+volume_db = -17.654
+autoplay = true
+bus = &"Music"
+parameters/looping = true
